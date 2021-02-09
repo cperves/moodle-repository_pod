@@ -15,27 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Folder plugin version information
+ * lang file for repository pod
  *
- * @package
- * @subpackage
- * @copyright  2017 unistra  {@link http://unistra.fr}
- * @author      Pascal Mathelin <pascal.mathelin@unistra.fr>
- * @author      Celine Perves <cperves@unistra.fr>
- * @author      Claude Yahou <claude.yahou@unistra.fr>
+ * @package repository pod
+ * @copyright  2020 unistra  {@link http://unistra.fr}
+ * @author     Pascal Mathelin <pascal.mathelin@unistra.fr>
+ * @author     Celine Perves <cperves@unistra.fr>
+ * @author     Claude Yahou <claude.yahou@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname']   = 'Pod';
 $string['configplugin'] = 'Pod';
-$string['spore_description_file_url'] = 'Pod description file URL';
-$string['spore_description_file_url_help'] = 'e.g. https://pod-ws-test.u-strasbg.fr/site_media/description.json';
-$string['spore_base_url'] = 'Pod base URL';
-$string['spore_base_url_help'] = 'e.g : https://pod-ws-test.u-strasbg.fr';
-$string['spore_token'] = 'Pod Token';
-$string['spore_token_help'] = 'Pod web service token';
-$string['media_server_url'] = 'pod media server Url';
-$string['media_server_url_help'] = 'e.g https://podcast-test.u-strasbg.fr/media/';
+$string['pod_url'] = 'Pod base URL';
+$string['pod_url_help'] = 'e.g : https://pod-ws-test.u-strasbg.fr';
+$string['pod_api_key'] = 'Pod API key';
+$string['pod_api_key_help'] = 'Pod web service API key';
 $string['page_size'] = 'Pod page size';
 $string['page_size_help'] = 'Number of items per page in file picker';
 $string['pod:view'] = 'View Pod repository';
@@ -53,3 +48,13 @@ $string['privacy:metadata:repository_pod:pod_server:encodingtype']='pod internal
 $string['privacy:metadata:repository_pod:pod_server:title']='pod resource title';
 $string['privacy:metadata:repository_pod:pod_server']='The repository pod retrieve pod datas to store resources and show them.';
 $string['privacy:metadata:core_files']='The repository pod moodle store pod files informations as moodle file.';
+$string['qualitymode'] = 'Encoding file quality';
+$string['qualitymode_help'] = 'Encoding file quality choice to read in moodle player';
+$string['lowquality'] = 'Lower video quality';
+$string['bestquality'] = 'Best video quality';
+$string['adaptativequality'] = 'Best video quality';
+$string['extensions'] = 'Accepted file extensions';
+$string['extensions_help'] = 'Choose the file extension accpeted for endoded pod videos or audio. Separated by commas.';
+$string['lowerquality'] = 'Lower quality';
+$string['bestquality'] = 'Best quality';
+$string['https'] = 'Https protocol';

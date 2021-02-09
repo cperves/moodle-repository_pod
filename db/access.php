@@ -18,7 +18,7 @@
  * Plugin capabilities.
  *
  * @package    repository_pod
- * @copyright  2017 unistra
+ * @copyright  2020 unistra
  * @author     Celine Peves <cperves@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

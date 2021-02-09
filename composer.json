@@ -1,0 +1,7 @@
+{
+  "name": "cperves/moodle-repository_pod",
+  "description": "Moodle repository pod plugin.",
+  "require": {
+    "guzzlehttp/guzzle": "*"
+  }
+}

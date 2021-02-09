@@ -15,20 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Folder plugin version information
+ * Plugin capabilities.
  *
- * @package
- * @subpackage
- * @copyright  2020 unistra  {@link http://unistra.fr}
- * @author     Pascal Mathelin <pascal.mathelin@unistra.fr>
- * @author     Celine Perves <cperves@unistra.fr>
- * @author     Claude Yahou <claude.yahou@unistra.fr>
+ * @package    repository_pod
+ * @copyright  2020 unistra
+ * @author     Celine Peves <cperves@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2021020500;
-$plugin->requires  = 2018051708;
-$plugin->component = 'repository_pod';
