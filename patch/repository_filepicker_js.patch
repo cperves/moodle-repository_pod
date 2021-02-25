@@ -10,7 +10,7 @@
                  page: nextpage,
 -                repo_id: this.active_repo.id
 +                repo_id: this.active_repo.id,
-+                //Unistra Dev
++                // UNISTRA DEV.
 +                s: ((this.active_repo.searchtext!= undefined && this.active_repo.searchtext !=null && this.active_repo.searchtext!='') ?this.active_repo.searchtext:'')
 +                //End Unistra Dev
              };
@@ -20,7 +20,7 @@
              this.active_repo.message = (data.message || '');
              this.active_repo.help = data.help?data.help:null;
              this.active_repo.manage = data.manage?data.manage:null;
-+            //UNISTRA Dev
++            // UNISTRA DEV.
 +            this.active_repo.searchtext = data.searchtext?data.searchtext:null;
 +            //End UNISTRA Dev
              this.print_header();
@@ -30,7 +30,7 @@
                      scope: this,
                      action:'searchform',
                      repository_id: this.active_repo.id,
-+                    //Unistra dev
++                    // UNISTRA DEV.
 +                    search_text: this.active_repo.searchtext,
 +                    //end Unistra dev
                      callback: function(id, obj, args) {
@@ -40,7 +40,7 @@
                              // Highlight search text when user click for search.
                              var searchnode = searchform.one('input[name="s"]');
                              if (searchnode) {
-+                            	//Unistra dev
++                            	// UNISTRA DEV.
 +                                if(this.search_text){
 +                                	searchnode.set('value',this.search_text);
 +                                }
