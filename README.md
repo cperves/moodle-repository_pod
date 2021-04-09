@@ -20,10 +20,13 @@ Install repository/pod in your own repository directory
 
 #### Repository setting
 fill plugin setting field :
-* pod/pod_url : POD webservice base url
-* pod/pod_api_key : POD webservice API key
-* pod/page_size : page size :used for pod webservice and then enabling paging on filepicker
-
+* pod_url : POD webservice base url
+* pod_api_key : POD webservice API key
+* page_size : page size :used for pod webservice and then enabling paging on filepicker
+* usernamehook : will only be available if a hookfile.php is located in repository/pod of your moodle installation
+  * check this if you have to apply username hook
+  * username hook enable you to map moodle username with pod uid
+  * in hooklib.php define a repository_pod_moodle_uid_to_pod_uid function that will make a trnaformation from moodle user object to obtain corresponding pod uid
 ## filepicker paging patch for search
 * apply patch included
 ```

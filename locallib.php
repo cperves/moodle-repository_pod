@@ -13,22 +13,32 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Folder plugin version information
+ * lib for repository pod
  *
  * @package
  * @subpackage
- * @copyright  2020 unistra  {@link http://unistra.fr}
- * @author     Pascal Mathelin <pascal.mathelin@unistra.fr>
+ * @copyright  2021 unistra  {@link http://unistra.fr}
  * @author     Celine Perves <cperves@unistra.fr>
- * @author     Claude Yahou <claude.yahou@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
  */
 
-defined('MOODLE_INTERNAL') || die();
+use repository_pod\manager\repository_pod_api_manager;
 
-$plugin->version   = 2021040900;
-$plugin->requires  = 2018051708;
-$plugin->component = 'repository_pod';
+defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot . '/repository/lib.php');
+
+
+class repository_pod_tools {
+
+    public static function moodle_username_to_pod_uid($isusernamehookactivated){
+        global $USER, $CFG;
+        // User id hook : check if hookfile exists
+        if($isusernamehookactivated && file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
+            require_once($CFG->dirroot.'/repository/pod/hooklib.php');
+            return repository_pod_moodle_uid_to_pod_uid();
+        }
+        return $USER->username;
+    }
+
+}

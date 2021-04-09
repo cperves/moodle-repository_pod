@@ -18,10 +18,8 @@
  *
  * @package
  * @subpackage
- * @copyright  2020 unistra  {@link http://unistra.fr}
- * @author     Pascal Mathelin <pascal.mathelin@unistra.fr>
+ * @copyright  2021 unistra  {@link http://unistra.fr}
  * @author     Celine Perves <cperves@unistra.fr>
- * @author     Claude Yahou <claude.yahou@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,6 +27,7 @@ use repository_pod\manager\repository_pod_api_manager;
 
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/repository/lib.php');
+require_once($CFG->dirroot . '/repository/pod/locallib.php');
 
 
 class repository_pod extends repository {
@@ -38,17 +37,6 @@ class repository_pod extends repository {
      * @var pod     The instance of pod client.
      */
     protected $pod;
-    protected $username;
-
-    public function __construct($repositoryid, $context = SYSCONTEXTID, $options = array()) {
-        global $USER;
-        if (isset($USER)) {
-            $this->username = $USER->username;
-        } else {
-            require_login();
-        }
-        parent::__construct($repositoryid, $context, $options);
-    }
 
     public function get_listing($path = '', $page = 0) {
             return $this->get_listing_details($path, $page);
@@ -71,6 +59,7 @@ class repository_pod extends repository {
      * @param object $mform
      */
     public static function instance_config_form($mform, $classname = 'repository') {
+        global $CFG;
         parent::type_config_form($mform);
 
         $strrequired = get_string('required');
@@ -103,14 +92,20 @@ class repository_pod extends repository {
         $mform->addElement('select', 'qualitymode', get_string('qualitymode', 'repository_pod'), $qualitymodes);
         $mform->addElement('static', null, '', get_string('qualitymode_help', 'repository_pod'));
         $mform->setType('qualitymode', PARAM_RAW_TRIMMED);
+        // User id hook : check if hookfile exists
+        if(file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
+            $mform->addElement('checkbox', 'usernamehook', get_string('usernamehook', 'repository_pod'));
+            $mform->setDefault('usernamehook', 0);
+        }
         $mform->addRule('pod_url', $strrequired, 'required', null, 'client');
         $mform->addRule('pod_api_key', $strrequired, 'required', null, 'client');
         $mform->addRule('page_size', $strrequired, 'required', null, 'client');
         $mform->addRule('extensions', $strrequired, 'required', null, 'client');
+
     }
 
     public static function get_instance_option_names() {
-        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode');
+        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode', 'usernamehook');
     }
 
     public function send_file($storedfile, $lifetime=86400 , $filter=0, $forcedownload=true, array $options = null) {
@@ -148,9 +143,14 @@ class repository_pod extends repository {
     }
 
     public function get_listing_details($path, $page, $request='') {
-
+        global $USER;
+        if (isset($USER)) {
+            $username = repository_pod_tools::moodle_username_to_pod_uid($this->options['usernamehook']);
+        } else {
+            require_login();
+        }
         $params = array(
-            "username" => $this->username,
+            "username" => $username,
             "format" => "json",
             "encoding_in_progress" => "False",
         );

@@ -13,22 +13,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Folder plugin version information
+ * hookfile
  *
- * @package
- * @subpackage
- * @copyright  2020 unistra  {@link http://unistra.fr}
- * @author     Pascal Mathelin <pascal.mathelin@unistra.fr>
- * @author     Celine Perves <cperves@unistra.fr>
- * @author     Claude Yahou <claude.yahou@unistra.fr>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @package     repository_pod
+ * @copyright   2021 Université de Strasbourg {@link https://unistra.fr/}
+ * @author Céline Pervès<cperves@unistra.fr>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2021040900;
-$plugin->requires  = 2018051708;
-$plugin->component = 'repository_pod';
+function repository_pod_moodle_uid_to_pod_uid() {
+    global $USER;
+    return $USER->email;
+}
