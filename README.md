@@ -33,6 +33,13 @@ fill plugin setting field :
 patch -p1 /moodle_dirroot/repository/filepicker.js  < patch/repository_filepicker_js.patch
 ```
 
+## Install patch to take external repository in charge
+* by default moodle does not restore external repository in course to prevent file breaking
+  * but you can enable this by installing following patch on your moodle version
+```shell
+patch -p1 /moodle_path/backup/moodle2/restore_stepslib.php < /moodlepath/patch/backup_moodle2_restore_stepslib.patch
+```
+
 ## Contributions
 Contributions of any form are welcome. Github pull requests are preferred.
 Fill free to commit any bugs, improvements, or feature requiests in our [issue tracker][issues].
