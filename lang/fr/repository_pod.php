@@ -40,3 +40,4 @@ $string['servernotreponding'] = 'Le serveur Pod ne répond pas. Veuillez rééss
 $string['servererror']='Le serveur Pod ne répond pas. Veuillez rééssayer plus tard.';
 $string['podlicenceinformationunavailable']='-';
 $string['usernamehook'] = 'Activer le hook username. Le username moodle sera remplacé à l\'aide d\'une fonciton hook renseignée dans un fichier hooklib.php à la racine du dossier repositpry/pod.';
+$string['podfilenotfound'] = 'Fichier pod non trouvé.';

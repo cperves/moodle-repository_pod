@@ -57,3 +57,4 @@ $string['lowerquality'] = 'Lower quality';
 $string['bestquality'] = 'Best quality';
 $string['https'] = 'Https protocol';
 $string['usernamehook'] = 'Enable username hook. moodle user username will be replaced thanks to a function defined in a hooklib.php file, locate din repositpry/pod directory.';
+$string['podfilenotfound'] = 'Pod file not found.';
