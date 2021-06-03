@@ -94,8 +94,11 @@ class repository_pod extends repository {
         $mform->addElement('static', null, '', get_string('qualitymode_help', 'repository_pod'));
         $mform->setType('qualitymode', PARAM_RAW_TRIMMED);
 
-
-        $mform->addElement('checkbox', 'thumbnail', get_string('thumbnail', 'repository_pod'));
+        $mform->addElement('checkbox', 'thumbnail',
+            get_string('thumbnail_desc', 'repository_pod'),
+            get_string('thumbnail', 'repository_pod')
+        );
+        $mform->setDefault('thumbnail', 0);
         // User id hook : check if hookfile exists
         if(file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
             $mform->addElement('checkbox', 'usernamehook', get_string('usernamehook', 'repository_pod'));
