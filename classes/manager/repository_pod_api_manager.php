@@ -132,15 +132,20 @@ class repository_pod_api_manager {
                                     'author' => $author,
                                     'license' => $license
                                 );
+                                $elses = $OUTPUT->image_url(file_extension_icon($video_file->extension, 80))->out(false);
                                 try {
-                                    if (property_exists($video_data, "thumbnail")) {
-                                        $list["list"][$i]["thumbnail"] = ($https ? 'https:' : 'http:') . $video_data->thumbnail;
+                                    if (!isset($this->options['thumbnail'])){
+                                        if (property_exists($video_data, "thumbnail")) {
+                                            $list["list"][$i]["thumbnail"] = ($https ? 'https:' : 'http:') . $video_data->thumbnail;
+                                        } else {
+                                            $list["list"][$i]["thumbnail"] = $elses;
+
+                                        }
                                     } else {
-                                        $list["list"][$i]["thumbnail"] =
-                                            $OUTPUT->image_url(file_extension_icon($url, 24))->out(false);
+                                        $list["list"][$i]["thumbnail"] = $elses;
                                     }
                                 } catch (Exception $e) {
-                                    $list["list"][$i]["thumbnail"] = $OUTPUT->image_url(file_extension_icon($url, 24))->out(false);
+                                    $list["list"][$i]["thumbnail"] = $elses;
                                 }
                                 $i++;
                                 // Only one item per extension

@@ -92,6 +92,11 @@ class repository_pod extends repository {
         $mform->addElement('select', 'qualitymode', get_string('qualitymode', 'repository_pod'), $qualitymodes);
         $mform->addElement('static', null, '', get_string('qualitymode_help', 'repository_pod'));
         $mform->setType('qualitymode', PARAM_RAW_TRIMMED);
+        $mform->addElement('checkbox', 'thumbnail',
+            get_string('thumbnail_desc', 'repository_pod'),
+            get_string('thumbnail', 'repository_pod')
+        );
+        $mform->setDefault('thumbnail', 0);
         // User id hook : check if hookfile exists
         if(file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
             $mform->addElement('checkbox', 'usernamehook', get_string('usernamehook', 'repository_pod'));
@@ -105,7 +110,7 @@ class repository_pod extends repository {
     }
 
     public static function get_instance_option_names() {
-        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode', 'usernamehook');
+        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode','thumbnail', 'usernamehook');
     }
 
     public function send_file($storedfile, $lifetime=86400 , $filter=0, $forcedownload=true, array $options = null) {
