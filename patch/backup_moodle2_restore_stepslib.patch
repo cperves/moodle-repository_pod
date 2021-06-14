@@ -1,0 +1,48 @@
+--- /datas/dev/moodle/moodle_gitworkspaces/moodle39/moodle_org/backup/moodle2/restore_stepslib.php	2021-05-10 15:11:46.982242943 +0200
++++ /datas/dev/moodle/moodle_gitworkspaces/moodle39/moodle2_version/backup/moodle2/restore_stepslib.php	2021-05-11 09:16:05.076475425 +0200
+@@ -5248,7 +5250,9 @@
+                 // This is a reference to some external file such as in boxnet or dropbox.
+                 // If we are restoring to the same site, keep the reference untouched and
+                 // restore the alias as is.
+-                if ($this->task->is_samesite()) {
++                // UNISTRA DEV.
++                if ($this->task->is_samesite() or $info->oldfile->repositorytype == 'pod') {
++                //End UNISTRA DEV
+                     $fs->create_file_from_reference($info->newfile, $repository->id, $info->oldfile->reference);
+                     $this->notify_success($info);
+                     continue;
+@@ -5310,7 +5314,9 @@
+ 
+             // Both Server files and Legacy course files repositories have a single
+             // instance at the system context to use. Let us try to find it.
+-            if ($info->oldfile->repositorytype === 'local' or $info->oldfile->repositorytype === 'coursefiles') {
++            // UNISTRA DEV.
++            if ($info->oldfile->repositorytype === 'local' or $info->oldfile->repositorytype === 'coursefiles' or $info->oldfile->repositorytype == 'pod') {
++            // END UNISTRA DEV.
+                 $sql = "SELECT ri.id
+                           FROM {repository} r
+                           JOIN {repository_instances} ri ON ri.typeid = r.id
+@@ -5322,14 +5328,14 @@
+                 $repoids = array_keys($ris);
+                 $repoid = reset($repoids);
+                 try {
+-                    $this->cachereposbytype[$info->oldfile->repositorytype] = repository::get_repository_by_id($repoid, SYSCONTEXTID);
++                    $this->cachereposbytype[$info->oldfile->repositorytype] =
++                        repository::get_repository_by_id($repoid, SYSCONTEXTID);
+                     return $this->cachereposbytype[$info->oldfile->repositorytype];
+                 } catch (Exception $e) {
+                     $this->cachereposbytype[$info->oldfile->repositorytype] = null;
+                     return null;
+                 }
+             }
+-
+             $this->cachereposbytype[$info->oldfile->repositorytype] = null;
+             return null;
+         }
+@@ -5987,4 +5993,4 @@
+         $task->set_custom_data(array('courseid' => $this->get_courseid()));
+         \core\task\manager::queue_adhoc_task($task, true);
+     }
+-}
++}
+\ Pas de fin de ligne à la fin du fichier

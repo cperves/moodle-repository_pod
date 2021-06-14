@@ -145,7 +145,7 @@ class repository_pod extends repository {
         if(!empty($videourl)){
             header('Location: '.$videourl);
         } else {
-            print_error('podfilenotfound');
+            throw new repository_exception('podfilenotfound', 'repository', '', get_string('podfilenotfound', 'repository_pod'));
         }
     }
 
