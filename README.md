@@ -39,6 +39,7 @@ patch -p1 /moodle_dirroot/repository/filepicker.js  < patch/repository_filepicke
 ```shell
 patch -p1 /moodle_path/backup/moodle2/restore_stepslib.php < /moodlepath/patch/backup_moodle2_restore_stepslib.patch
 ```
+
 ## Contributions
 Contributions of any form are welcome. Github pull requests are preferred.
 Fill free to commit any bugs, improvements, or feature requiests in our [issue tracker][issues].
