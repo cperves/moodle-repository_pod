@@ -80,6 +80,7 @@ class repository_pod extends repository {
         $mform->setType('extensions', PARAM_RAW_TRIMMED);
         $mform->addElement('static', null, '', get_string('extensions', 'repository_pod'));
 
+
         $mform->addElement('text', 'page_size', get_string('page_size', 'repository_pod'),
                 array('size' => '200'));
         $mform->setType('page_size', PARAM_INT);
@@ -87,7 +88,8 @@ class repository_pod extends repository {
         $qualitymodes = array(
             'lower' => get_string('lowerquality', 'repository_pod'),
             'best' => get_string('bestquality', 'repository_pod'),
-            'adaptative' => get_string('adaptativequality', 'repository_pod')
+            /* Will taken in charge in a future version
+            'adaptative' => get_string('adaptativequality', 'repository_pod')*/
         );
         $mform->addElement('select', 'qualitymode', get_string('qualitymode', 'repository_pod'), $qualitymodes);
         $mform->addElement('static', null, '', get_string('qualitymode_help', 'repository_pod'));
