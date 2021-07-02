@@ -31,10 +31,10 @@ require_once($CFG->dirroot . '/repository/lib.php');
 
 class repository_pod_tools {
 
-    public static function moodle_username_to_pod_uid($isusernamehookactivated){
+    public static function moodle_username_to_pod_uid($isusernamehookactivated) {
         global $USER, $CFG;
-        // User id hook : check if hookfile exists
-        if($isusernamehookactivated && file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
+        // User id hook : check if hookfile exists.
+        if ($isusernamehookactivated && file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
             require_once($CFG->dirroot.'/repository/pod/hooklib.php');
             return repository_pod_moodle_uid_to_pod_uid();
         }

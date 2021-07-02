@@ -23,8 +23,8 @@
  */
 
 
-
 namespace repository_pod\manager;
+defined('MOODLE_INTERNAL') || die();
 global $CFG;
 use GuzzleHttp\Client;
 use GuzzleHttp\Utils;
@@ -47,7 +47,7 @@ class repository_pod_api_manager {
             $headers = array();
             $headers['Authorization'] = 'Token '.$this->options['pod_api_key'];
             $headers['Content-Type'] = 'application/json';
-            $this->client = new \GuzzleHttp\Client(['base_uri'=> $this->options['pod_url'], 'headers' => $headers ]);
+            $this->client = new \GuzzleHttp\Client(['base_uri' => $this->options['pod_url'], 'headers' => $headers ]);
         } catch (Exception $e) {
             debugging('Error while retrieving pod rest client : '.$e->getTrace());
         }
@@ -66,13 +66,13 @@ class repository_pod_api_manager {
         $body = $response->getBody()->getContents();
         if (isset($body)) {
             $datas = \GuzzleHttp\Utils::jsonDecode($body);
-            if(property_exists($datas, 'results')){
+            if (property_exists($datas, 'results')) {
                 foreach ($datas->results as $data) {
                     array_push($res, $data);
                 }
-                $num_pages = (int)ceil($datas->count / $this->options['page_size']);
+                $numpages = (int)ceil($datas->count / $this->options['page_size']);
                 $page = isset($params['page']) ? $params['page'] : 1;
-                return array('page' => $page, 'results' => $res, 'pages' => $num_pages, 'total' => $datas->count);
+                return array('page' => $page, 'results' => $res, 'pages' => $numpages, 'total' => $datas->count);
             } else {
                 return $datas;
             }
@@ -94,18 +94,18 @@ class repository_pod_api_manager {
         if (count($results) > 0) {
             $list['list'] = array();
             $i = 0;
-            foreach($results as $result) {
-                $video_data = $result->video_data;
-                $mediatype = $video_data->mediatype;
+            foreach ($results as $result) {
+                $videodata = $result->video_data;
+                $mediatype = $videodata->mediatype;
                 if (!in_array($mediatype, array(self::MEDIATYPE_AUDIO, self::MEDIATYPE_VIDEO))) {
                     continue;
                 }
                 $podcourseid = $result->id;
-                $title = $video_data->title;
-                $url = ($https ? 'https:' : 'http:') . $video_data->full_url;
+                $title = $videodata->title;
+                $url = ($https ? 'https:' : 'http:') . $videodata->full_url;
                 $source = $podcourseid;
-                $author = $video_data->owner;
-                // TODO alternatives owner
+                $author = $videodata->owner;
+                // TODO alternatives owner.
                 $datemodified = strtotime($result->date_added);
                 $datecreated = $result->date_evt;
                 if ($datecreated === null) {
@@ -115,28 +115,28 @@ class repository_pod_api_manager {
                 }
                 $duration = $result->duration;
                 $license = get_string("podlicenceinformationunavailable", "repository_pod");
-                if (property_exists($video_data, 'video_files')) {
+                if (property_exists($videodata, 'video_files')) {
 
-                    foreach ($video_data->video_files as $video_extensions) {
-                        foreach($video_extensions as $video_file) {
+                    foreach ($videodata->video_files as $videoextensions) {
+                        foreach ($videoextensions as $videofile) {
 
-                                //TODO here include extension checking
+                                // TODO here include extension checking.
                                 $list['list'][$i] = array(
-                                    'title' => $title . $video_file->extension,
+                                    'title' => $title . $videofile->extension,
                                     'url' => $url,
                                     'source' => $source,
-                                    'extension' => $video_file->extension,
+                                    'extension' => $videofile->extension,
                                     'datecreated' => $datecreated,
                                     'datemodified' => $datemodified,
                                     'size' => null,
                                     'author' => $author,
                                     'license' => $license
                                 );
-                                $elses = $OUTPUT->image_url(file_extension_icon($video_file->extension, 80))->out(false);
+                                $elses = $OUTPUT->image_url(file_extension_icon($videofile->extension, 80))->out(false);
                                 try {
-                                    if (!isset($this->options['thumbnail'])){
-                                        if (property_exists($video_data, "thumbnail")) {
-                                            $list["list"][$i]["thumbnail"] = ($https ? 'https:' : 'http:') . $video_data->thumbnail;
+                                    if (!isset($this->options['thumbnail'])) {
+                                        if (property_exists($videodata, "thumbnail")) {
+                                            $list["list"][$i]["thumbnail"] = ($https ? 'https:' : 'http:') . $videodata->thumbnail;
                                         } else {
                                             $list["list"][$i]["thumbnail"] = $elses;
 
@@ -148,9 +148,9 @@ class repository_pod_api_manager {
                                     $list["list"][$i]["thumbnail"] = $elses;
                                 }
                                 $i++;
-                                // Only one item per extension
+                                // Only one item per extension.
                                 break;
-                            }
+                        }
 
                     }
 
@@ -172,7 +172,7 @@ class repository_pod_api_manager {
         global $DB;
         $sql = "SELECT r.type,f.source
                 FROM mdl_files f INNER JOIN {files_reference} fr ON fr.id=f.referencefileid
-                INNER JOIN {repository_instances} ri  on fr.repositoryid=ri.id INNER JOIN {repository} r on r.id=ri.typeid 
+                INNER JOIN {repository_instances} ri  on fr.repositoryid=ri.id INNER JOIN {repository} r on r.id=ri.typeid
                 WHERE f.contextid=:ctxid  AND r.type=:type AND f.component=:component AND f.filearea=:filearea";
         $record = $DB->get_record_sql($sql,
             array('ctxid' => $ctxid, 'type' => 'pod', 'component' => 'mod_resource', 'filearea' => 'content'));

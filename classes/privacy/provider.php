@@ -58,17 +58,15 @@ class provider implements
             'pod.server',
             [
                 'id' => 'privacy:metadata:repository_pod:pod_server:id',
-                'username'=> 'privacy:metadata:repository_pod:pod_server:owner_username',
-                'owner'=> 'privacy:metadata:repository_pod:pod_server:ownerlist',
-                'video'=> 'privacy:metadata:repository_pod:pod_server:video',
+                'username' => 'privacy:metadata:repository_pod:pod_server:owner_username',
+                'owner' => 'privacy:metadata:repository_pod:pod_server:ownerlist',
+                'video' => 'privacy:metadata:repository_pod:pod_server:video',
                 'mediatype' => 'privacy:metadata:repository_pod:pod_server:encodingtype',
                 'title' => 'privacy:metadata:repository_pod:pod_server:title',
             ],
             'privacy:metadata:repository_pod:pod_server'
         );
         $collection->add_subsystem_link('core_files', [], 'privacy:metadata:core_files');
-
-
         return $collection;
     }
 
@@ -79,13 +77,16 @@ class provider implements
      * @return  contextlist   $contextlist  The contextlist containing the list of contexts used in this plugin.
      */
     public static function get_contexts_for_userid(int $userid) : contextlist {
-        //module context but also user context because of draft et private
-        $contextlist =  new contextlist();
-        $sql = 'select f.contextid from {files} f inner join {files_reference} fr on fr.id=f.referencefileid inner join {repository_instances} ri on ri.id=fr.repositoryid inner join {repository} r on r.id=ri.typeid inner join {context} ctx on ctx.id=f.contextid where r.type=\'pod\' and f.userid=:userid';
+        // Module context but also user context because of draft et private.
+        $contextlist = new contextlist();
+        $sql = 'select f.contextid from {files} f
+                    inner join {files_reference} fr on fr.id=f.referencefileid
+                    inner join {repository_instances} ri on ri.id=fr.repositoryid inner join {repository} r on r.id=ri.typeid
+                    inner join {context} ctx on ctx.id=f.contextid where r.type=\'pod\' and f.userid=:userid';
         $params = [
                 'userid' => $userid,
         ];
-        $contextlist->add_from_sql($sql,$params);
+        $contextlist->add_from_sql($sql, $params);
         return $contextlist;
     }
 
@@ -96,8 +97,10 @@ class provider implements
      */
     public static function get_users_in_context(userlist $userlist) {
         $context = $userlist->get_context();
-        if($context instanceof \context_module || $context instanceof \context_user){
-            $sql = 'select f.userid from {files} f inner join {files_reference} fr on fr.id=f.referencefileid inner join {repository_instances} ri on ri.id=fr.repositoryid inner join {repository} r on r.id=ri.typeid where r.type=\'pod\' and f.contextid=:contextid';
+        if ($context instanceof \context_module || $context instanceof \context_user) {
+            $sql = 'select f.userid from {files} f inner join {files_reference} fr on fr.id=f.referencefileid
+                    inner join {repository_instances} ri on ri.id=fr.repositoryid inner join {repository} r on r.id=ri.typeid
+                    where r.type=\'pod\' and f.contextid=:contextid';
             $params = [
                     'contextid' => $context->id
             ];
@@ -111,8 +114,8 @@ class provider implements
      * @param   approved_contextlist $contextlist The approved contexts to export information for.
      */
     public static function export_user_data(approved_contextlist $contextlist) {
-        //file entry with pod referenceid?
-
+        // File entry with pod referenceid?
+        // To check with dpo.
     }
 
     /**
@@ -121,8 +124,8 @@ class provider implements
      * @param   context $context The specific context to delete data for.
      */
     public static function delete_data_for_all_users_in_context(\context $context) {
-        //it is linked to a resource in a course
-        //no seems to be necessary
+        // It is linked to a resource in a course.
+        // No seems to be necessary.
     }
 
     /**

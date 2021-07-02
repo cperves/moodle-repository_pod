@@ -76,10 +76,9 @@ class repository_pod extends repository {
         $mform->setType('pod_api_key', PARAM_RAW_TRIMMED);
         $mform->addElement('static', null, '', get_string('pod_api_key_help', 'repository_pod'));
 
-        $mform->addElement('text','extensions', get_string('extensions', 'repository_pod'));
+        $mform->addElement('text', 'extensions', get_string('extensions', 'repository_pod'));
         $mform->setType('extensions', PARAM_RAW_TRIMMED);
         $mform->addElement('static', null, '', get_string('extensions', 'repository_pod'));
-
 
         $mform->addElement('text', 'page_size', get_string('page_size', 'repository_pod'),
                 array('size' => '200'));
@@ -99,8 +98,8 @@ class repository_pod extends repository {
             get_string('thumbnail', 'repository_pod')
         );
         $mform->setDefault('thumbnail', 0);
-        // User id hook : check if hookfile exists
-        if(file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
+        // User id hook : check if hookfile exists.
+        if (file_exists($CFG->dirroot.'/repository/pod/hooklib.php')) {
             $mform->addElement('checkbox', 'usernamehook', get_string('usernamehook', 'repository_pod'));
             $mform->setDefault('usernamehook', 0);
         }
@@ -112,7 +111,7 @@ class repository_pod extends repository {
     }
 
     public static function get_instance_option_names() {
-        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode','thumbnail', 'usernamehook');
+        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode', 'thumbnail', 'usernamehook');
     }
 
     public function send_file($storedfile, $lifetime=86400 , $filter=0, $forcedownload=true, array $options = null) {
@@ -126,12 +125,12 @@ class repository_pod extends repository {
         $params = array(
             "format" => "json",
             "video" => $podresourceid,
-            "extension" => explode('.',$storedfile->get_filename())[1]
+            "extension" => explode('.', $storedfile->get_filename())[1]
         );
         $videourl = null;
         $results = $podrestapimanager->execute_request('/rest/encodings_'.$mediatype.'/'.$mediatype.'_encodedfiles/?', $params);
-        if($results){
-            if($qualitymode == 'best'){
+        if ($results) {
+            if ($qualitymode == 'best') {
                 $result = array_pop($results);
                 $videourl = $result->source_file;
             } else {
@@ -142,7 +141,7 @@ class repository_pod extends repository {
         /*
          * Display results
          */
-        if(!empty($videourl)){
+        if (!empty($videourl)) {
             header('Location: '.$videourl);
         } else {
             throw new repository_exception('podfilenotfound', 'repository', '', get_string('podfilenotfound', 'repository_pod'));
@@ -161,7 +160,7 @@ class repository_pod extends repository {
             "format" => "json",
             "encoding_in_progress" => "False",
         );
-        if(!empty($this->options['extensions'])){
+        if (!empty($this->options['extensions'])) {
             $params['extensions'] = $this->options['extensions'];
         }
         if ($request) {
