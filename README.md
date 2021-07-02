@@ -1,5 +1,5 @@
 # repository pod : moodle repository for POD
-repository pod is a moodle repository plugin that enable to create file resource linked by reference to an external POD server
+repository pod is a moodle repository plugin that enable to create file resource linked by reference to an external POD v2 server
 * See https://github.com/EsupPortail/pod/wiki for POD server informations
 
 ## Features
