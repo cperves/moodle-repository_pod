@@ -12,16 +12,15 @@ from moodle plugin repository
 
 ## Moodle Installation
 ### guzzle http
-FIXME
 allow_url_fopen in php.ini
 
 ### Repository installation
 Install repository/pod in your own repository directory
 
-#### Repository setting
+#### Repository new instance settings
 fill plugin setting field :
 * pod_url : POD webservice base url
-* pod_api_key : POD webservice API key
+* pod_api_key : POD webservice API key (Token generated into pod admin interface)
 * page_size : page size :used for pod webservice and then enabling paging on filepicker
 * usernamehook : will only be available if a hookfile.php is located in repository/pod of your moodle installation
   * check this if you have to apply username hook
@@ -45,6 +44,11 @@ Contributions of any form are welcome. Github pull requests are preferred.
 Fill free to commit any bugs, improvements, or feature requiests in our [issue tracker][issues].
 
 ## Authors
-* Pascal Mathelin
 * Celine Perves
+* Matthieu Fuchs
+* Pascal Mathelin
 * Claude Yahou
+
+## Mainteners
+* Celine Perves
+* Matthieu Fuchs

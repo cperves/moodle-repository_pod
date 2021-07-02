@@ -88,7 +88,8 @@ class repository_pod extends repository {
         $qualitymodes = array(
             'lower' => get_string('lowerquality', 'repository_pod'),
             'best' => get_string('bestquality', 'repository_pod'),
-            'adaptative' => get_string('adaptativequality', 'repository_pod')
+            /* Will taken in charge in a future version
+            'adaptative' => get_string('adaptativequality', 'repository_pod')*/
         );
         $mform->addElement('select', 'qualitymode', get_string('qualitymode', 'repository_pod'), $qualitymodes);
         $mform->addElement('static', null, '', get_string('qualitymode_help', 'repository_pod'));
