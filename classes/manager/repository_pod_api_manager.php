@@ -26,10 +26,7 @@
 namespace repository_pod\manager;
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
-use GuzzleHttp\Client;
-use GuzzleHttp\Utils;
 
-require_once($CFG->dirroot.'/repository/pod/vendor/autoload.php');
 class repository_pod_api_manager {
     const POD_NOTPOD = -2;
     const POD_EXISTS = 1;
@@ -44,10 +41,9 @@ class repository_pod_api_manager {
     public function __construct($options) {
         $this->options = $options;
         try {
-            $headers = array();
-            $headers['Authorization'] = 'Token '.$this->options['pod_api_key'];
-            $headers['Content-Type'] = 'application/json';
-            $this->client = new \GuzzleHttp\Client(['base_uri' => $this->options['pod_url'], 'headers' => $headers ]);
+            $this->client = new \curl();
+            $this->client->setHeader('Authorization: Token '.$this->options['pod_api_key']);
+            $this->client->setHeader('Content-Type: application/json');
         } catch (Exception $e) {
             debugging('Error while retrieving pod rest client : '.$e->getTrace());
         }
@@ -58,14 +54,12 @@ class repository_pod_api_manager {
             return false;
         }
         $res = array();
-        $response = $this->client->request($method, $func, ['query' => $params]);
-        if ($response->getStatusCode() == "404") {
+        $response = $this->client->get($this->options['pod_url'].$func, $params);
+        if ($this->client->get_info()->http_code == "404") {
             return false;
         }
-
-        $body = $response->getBody()->getContents();
-        if (isset($body)) {
-            $datas = \GuzzleHttp\Utils::jsonDecode($body);
+        $datas = json_decode($response);
+        if (!empty($datas)) {
             if (property_exists($datas, 'results')) {
                 foreach ($datas->results as $data) {
                     array_push($res, $data);

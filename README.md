@@ -11,8 +11,6 @@ repository pod is a moodle repository plugin that enable to create file resource
 from moodle plugin repository
 
 ## Moodle Installation
-### guzzle http
-allow_url_fopen in php.ini
 
 ### Repository installation
 Install repository/pod in your own repository directory
