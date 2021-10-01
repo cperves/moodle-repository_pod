@@ -33,4 +33,4 @@ $plugin->version   = 2021100100;
 $plugin->requires  = 2018051708;
 $plugin->component = 'repository_pod';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 2.1;
+$plugin->release = 2.1.0;
