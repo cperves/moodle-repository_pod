@@ -37,6 +37,11 @@ patch -p1 /moodle_dirroot/repository/filepicker.js  < patch/repository_filepicke
 patch -p1 /moodle_path/backup/moodle2/restore_stepslib.php < /moodlepath/patch/backup_moodle2_restore_stepslib.patch
 ```
 
+## Issues
+### Videos width issues
+* sometime, in edit mode, video take to much places
+  * to solve that add video{max-width:100%} to your custom css field in theme configuration
+
 ## Contributions
 Contributions of any form are welcome. Github pull requests are preferred.
 Fill free to commit any bugs, improvements, or feature requiests in our [issue tracker][issues].
