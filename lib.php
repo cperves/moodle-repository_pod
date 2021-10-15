@@ -164,7 +164,7 @@ class repository_pod extends repository {
             $params['extensions'] = $this->options['extensions'];
         }
         if ($request) {
-            $params["title__icontains"] = $request;
+            $params["search__title"] = $request;
         }
         if (isset($page) && !empty($page)) {
             $params["page"] = $page;
