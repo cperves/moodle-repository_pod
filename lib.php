@@ -61,6 +61,7 @@ class repository_pod extends repository {
     public static function instance_config_form($mform, $classname = 'repository') {
         global $CFG;
         parent::type_config_form($mform);
+        require_once("$CFG->libdir/resourcelib.php");
 
         $strrequired = get_string('required');
 
@@ -84,6 +85,20 @@ class repository_pod extends repository {
                 array('size' => '200'));
         $mform->setType('page_size', PARAM_INT);
         $mform->addElement('static', null, '', get_string('page_size_help', 'repository_pod'));
+
+        $displayoptions = resourcelib_get_displayoptions(
+            explode(',', get_config('resource','displayoptions')));
+        $mform->addElement('select', 'displaytypes', get_string('display_types', 'repository_pod'),
+            $displayoptions, array('multiple' => 'multiple'));
+        $mform->addElement('static', null, '', get_string('display_types_help', 'repository_pod'));
+        $mform->setType('displaytypes', PARAM_TEXT);
+
+        $mform->addElement('checkbox', 'thumbnail',
+            get_string('thumbnail_desc', 'repository_pod'),
+            get_string('thumbnail', 'repository_pod')
+        );
+        $mform->setDefault('thumbnail', 0);
+
         $qualitymodes = array(
             'lower' => get_string('lowerquality', 'repository_pod'),
             'best' => get_string('bestquality', 'repository_pod'),
@@ -111,11 +126,12 @@ class repository_pod extends repository {
     }
 
     public static function get_instance_option_names() {
-        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode', 'thumbnail', 'usernamehook');
+        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode', 'thumbnail', 'usernamehook',
+            'displaytypes');
     }
 
     public function send_file($storedfile, $lifetime=86400 , $filter=0, $forcedownload=true, array $options = null) {
-        global $CFG;
+        global $CFG, $DB;
         require_once($CFG->dirroot.'/mod/resource/locallib.php');
         $podrestapimanager = new \repository_pod\manager\repository_pod_api_manager($this->options);
         $qualitymode = $this->options['qualitymode'];
@@ -127,25 +143,38 @@ class repository_pod extends repository {
             "video" => $podresourceid,
             "extension" => explode('.', $storedfile->get_filename())[1]
         );
-        $videourl = null;
-        $results = $podrestapimanager->execute_request('/rest/encodings_'.$mediatype.'/'.$mediatype.'_encodedfiles/?', $params);
-        if ($results) {
-            if ($qualitymode == 'best') {
-                $result = array_pop($results);
-                $videourl = $result->source_file;
+        // retrieve displaytype
+        $resource= $DB->get_record_sql(
+            'select r.* from {course_modules} cm inner join {resource} r on r.id=cm.instance 
+            inner join {context} ctx on ctx.instanceid=cm.id and ctx.contextlevel=:contextmodule where ctx.id=:contextid',
+            array('contextmodule' => CONTEXT_MODULE, 'contextid' => $storedfile->get_contextid())
+        );
+        if ($resource->display == RESOURCELIB_DISPLAY_FRAME) {
+            // use pod view
+        } else {
+            $videourl = null;
+            $results = $podrestapimanager->execute_request('/rest/encodings_' . $mediatype . '/' . $mediatype . '_encodedfiles/?',
+                $params);
+            if ($results) {
+                if ($qualitymode == 'best') {
+                    $result = array_pop($results);
+                    $videourl = $result->source_file;
+                } else {
+                    $result = array_shift($results);
+                    $videourl = $result->source_file;
+                }
+            }
+            /*
+             * Display results
+             */
+            if (!empty($videourl)) {
+                header('Location: ' . $videourl);
             } else {
-                $result = array_shift($results);
-                $videourl = $result->source_file;
+                throw new repository_exception('podfilenotfound', 'repository', '',
+                    get_string('podfilenotfound', 'repository_pod'));
             }
         }
-        /*
-         * Display results
-         */
-        if (!empty($videourl)) {
-            header('Location: '.$videourl);
-        } else {
-            throw new repository_exception('podfilenotfound', 'repository', '', get_string('podfilenotfound', 'repository_pod'));
-        }
+
     }
 
     public function get_listing_details($path, $page, $request='') {

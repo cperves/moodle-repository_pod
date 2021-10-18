@@ -36,6 +36,8 @@ patch -p1 /moodle_dirroot/repository/filepicker.js  < patch/repository_filepicke
 ```shell
 patch -p1 /moodle_path/backup/moodle2/restore_stepslib.php < /moodlepath/patch/backup_moodle2_restore_stepslib.patch
 ```
+## Frame mode
+to enable frame mode don't forget to set resource | displayoptions setting in file activity modules administration page 
 
 ## Issues
 ### Videos width issues
