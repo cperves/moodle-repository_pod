@@ -122,10 +122,11 @@ class repository_pod extends repository {
         $podresourceid = $storedfile->get_reference();
         $mimetype = $storedfile->get_mimetype();
         $mediatype = explode('/', $mimetype)[0];
+        $explodedfilename = explode('.', $storedfile->get_filename());
         $params = array(
             "format" => "json",
             "video" => $podresourceid,
-            "extension" => explode('.', $storedfile->get_filename())[1]
+            "extension" => explode('.', $explodedfilename[count($explodedfilename)])
         );
         $videourl = null;
         $results = $podrestapimanager->execute_request('/rest/encodings_'.$mediatype.'/'.$mediatype.'_encodedfiles/?', $params);

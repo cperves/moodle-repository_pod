@@ -1,6 +1,8 @@
 # repository pod : moodle repository for POD
 repository pod is a moodle repository plugin that enable to create file resource linked by reference to an external POD v2 server
 * See https://github.com/EsupPortail/pod/wiki for POD server informations
+* pod version supported from 2.8.2
+* search working over 2.8.2
 
 ## Features
 * Enable to create video or audio file reference with a POD server filtering on current username
