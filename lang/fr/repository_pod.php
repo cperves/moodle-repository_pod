@@ -41,5 +41,5 @@ $string['servererror'] = 'Le serveur Pod ne répond pas. Veuillez rééssayer pl
 $string['podlicenceinformationunavailable'] = '-';
 $string['thumbnail'] = 'Défaut : Non, affichage des vignettes / Oui, affichage des extensions';
 $string['thumbnail_desc'] = 'Mode extension';
-$string['usernamehook'] = 'Activer le hook username. Le username moodle sera remplacé à l\'aide d\'une fonciton hook renseignée dans un fichier hooklib.php à la racine du dossier repositpry/pod.';
+$string['usernamehook'] = 'Activer le hook username. Le username moodle sera remplacé à l\'aide d\'une fonction hook renseignée dans un fichier hooklib.php à la racine du dossier repositpry/pod.';
 $string['podfilenotfound'] = 'Fichier pod non trouvé.';
