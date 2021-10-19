@@ -126,7 +126,7 @@ class repository_pod extends repository {
         $params = array(
             "format" => "json",
             "video" => $podresourceid,
-            "extension" => explode('.', $explodedfilename[count($explodedfilename)])
+            "extension" => $explodedfilename[count($explodedfilename)-1]
         );
         $videourl = null;
         $results = $podrestapimanager->execute_request('/rest/encodings_'.$mediatype.'/'.$mediatype.'_encodedfiles/?', $params);
