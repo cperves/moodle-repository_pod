@@ -19,7 +19,7 @@
  *
  * @package
  * @subpackage
- * @copyright  2020 unistra  {@link http://unistra.fr}
+ * @copyright  2021 unistra  {@link http://unistra.fr}
  * @author     Pascal Mathelin <pascal.mathelin@unistra.fr>
  * @author     Celine Perves <cperves@unistra.fr>
  * @author     Claude Yahou <claude.yahou@unistra.fr>
@@ -33,4 +33,4 @@ $plugin->version   = 2021102000;
 $plugin->requires  = 2018051708;
 $plugin->component = 'repository_pod';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.1.2';
+$plugin->release = '2.1.3';
