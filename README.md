@@ -26,6 +26,11 @@ fill plugin setting field :
   * check this if you have to apply username hook
   * username hook enable you to map moodle username with pod uid
   * in hooklib.php define a repository_pod_moodle_uid_to_pod_uid function that will make a trnaformation from moodle user object to obtain corresponding pod uid
+* enrichedviewmode :
+  * If checked, Pod resource will be displayed with Pod enriched media player instead of Moodle internal media player
+  * except for automatic and embed mode
+  * pay attention that draft and authentified required Pod resource will trigger authentication when displaying Pod resource
+  * Note that it is possible to create to Pod instance of same server enabling you to propose bith enriched and direct files Pod repositories 
 ## filepicker paging patch for search
 * apply patch included
 ```
