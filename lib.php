@@ -107,15 +107,19 @@ class repository_pod extends repository {
         $mform->addRule('pod_api_key', $strrequired, 'required', null, 'client');
         $mform->addRule('page_size', $strrequired, 'required', null, 'client');
         $mform->addRule('extensions', $strrequired, 'required', null, 'client');
+        $mform->addElement('checkbox', 'enrichedviewmode', get_string('enrichedviewmode', 'repository_pod'));
+        $mform->addElement('static', null, '', get_string('enrichedviewmode_help', 'repository_pod'));
+        $mform->setDefault('enrichedviewmode', 0);
 
     }
 
     public static function get_instance_option_names() {
-        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode', 'thumbnail', 'usernamehook');
+        return array('pod_url', 'pod_api_key', 'page_size', 'https', 'extensions', 'qualitymode', 'thumbnail', 'usernamehook',
+            'enrichedviewmode');
     }
 
     public function send_file($storedfile, $lifetime=86400 , $filter=0, $forcedownload=true, array $options = null) {
-        global $CFG;
+        global $CFG, $DB;
         require_once($CFG->dirroot.'/mod/resource/locallib.php');
         $podrestapimanager = new \repository_pod\manager\repository_pod_api_manager($this->options);
         $qualitymode = $this->options['qualitymode'];
@@ -128,15 +132,42 @@ class repository_pod extends repository {
             "video" => $podresourceid,
             "extension" => $explodedfilename[count($explodedfilename)-1]
         );
-        $videourl = null;
-        $results = $podrestapimanager->execute_request('/rest/encodings_'.$mediatype.'/'.$mediatype.'_encodedfiles/?', $params);
-        if ($results) {
-            if ($qualitymode == 'best') {
-                $result = array_pop($results);
-                $videourl = $result->source_file;
+        // Retrieve displaytype
+        $resource= $DB->get_record_sql(
+            'select r.* from {course_modules} cm inner join {resource} r on r.id=cm.instance 
+            inner join {context} ctx on ctx.instanceid=cm.id and ctx.contextlevel=:contextmodule where ctx.id=:contextid',
+            array('contextmodule' => CONTEXT_MODULE, 'contextid' => $storedfile->get_contextid())
+        );
+        if ($this->options['enrichedviewmode'] == 1
+            && ($resource->display == RESOURCELIB_DISPLAY_FRAME
+                || $resource->display == RESOURCELIB_DISPLAY_OPEN
+                || $resource->display == RESOURCELIB_DISPLAY_POPUP
+                || $resource->display == RESOURCELIB_DISPLAY_DOWNLOAD
+                || $resource->display == RESOURCELIB_DISPLAY_NEW
+            )) {
+            // Use pod view
+            // Retrieve video slug.
+            $result = $podrestapimanager->execute_request('/rest/videos/' . $podresourceid . '/?format=json',
+                $params);
+            if ($result) {
+                $slug = $result->slug;
+                $videourl = $this->options['pod_url'].'/video/'.$slug.'/?is_iframe=true';
             } else {
-                $result = array_shift($results);
-                $videourl = $result->source_file;
+                throw new repository_exception('podfileresourcefound', 'repository', '', get_string('podfilenotfound', 'repository_pod'));
+            }
+
+        } else {
+            $videourl = null;
+            $results = $podrestapimanager->execute_request('/rest/encodings_' . $mediatype . '/' . $mediatype . '_encodedfiles/?',
+                $params);
+            if ($results) {
+                if ($qualitymode == 'best') {
+                    $result = array_pop($results);
+                    $videourl = $result->source_file;
+                } else {
+                    $result = array_shift($results);
+                    $videourl = $result->source_file;
+                }
             }
         }
         /*

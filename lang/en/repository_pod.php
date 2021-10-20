@@ -60,3 +60,5 @@ $string['thumbnail'] = 'Default : No, display Thumbnails / Yes, display Extensio
 $string['thumbnail_desc'] = 'Extension mode';
 $string['usernamehook'] = 'Enable username hook. moodle user username will be replaced thanks to a function defined in a hooklib.php file, locate din repositpry/pod directory.';
 $string['podfilenotfound'] = 'Pod file not found.';
+$string['enrichedviewmode'] = 'Enriched view mode';
+$string['enrichedviewmode_help'] = 'Enriched view mode enable to use pod enriched view. Pay attention that if your video is not public user would have to authentify himself to plateform.';
