@@ -147,8 +147,7 @@ class repository_pod extends repository {
             )) {
             // Use pod view
             // Retrieve video slug.
-            $result = $podrestapimanager->execute_request('/rest/videos/' . $podresourceid . '/?format=json',
-                $params);
+            $result = $podrestapimanager->execute_request('/rest/videos/' . $podresourceid . '/?format=json', array());
             if ($result) {
                 $slug = $result->slug;
                 $videourl = $this->options['pod_url'].'/video/'.$slug.'/?is_iframe=true';
