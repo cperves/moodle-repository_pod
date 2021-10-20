@@ -130,11 +130,11 @@ class repository_pod extends repository {
         $params = array(
             "format" => "json",
             "video" => $podresourceid,
-            "extension" => $explodedfilename[count($explodedfilename)-1]
+            "extension" => $explodedfilename[count($explodedfilename) - 1]
         );
-        // Retrieve displaytype
-        $resource= $DB->get_record_sql(
-            'select r.* from {course_modules} cm inner join {resource} r on r.id=cm.instance 
+        // Retrieve displaytype.
+        $resource = $DB->get_record_sql(
+            'select r.* from {course_modules} cm inner join {resource} r on r.id=cm.instance
             inner join {context} ctx on ctx.instanceid=cm.id and ctx.contextlevel=:contextmodule where ctx.id=:contextid',
             array('contextmodule' => CONTEXT_MODULE, 'contextid' => $storedfile->get_contextid())
         );
@@ -152,7 +152,8 @@ class repository_pod extends repository {
                 $slug = $result->slug;
                 $videourl = $this->options['pod_url'].'/video/'.$slug.'/?is_iframe=true';
             } else {
-                throw new repository_exception('podfileresourcefound', 'repository', '', get_string('podfilenotfound', 'repository_pod'));
+                throw new repository_exception('podfileresourcefound', 'repository', '',
+                    get_string('podfilenotfound', 'repository_pod'));
             }
 
         } else {
