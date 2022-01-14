@@ -8,7 +8,7 @@ repository pod is a moodle repository plugin that enable to create file resource
 * Enable to create video or audio file reference with a POD server filtering on current username
 * search enabled
 * paging enabled for listing and searching in filepicker
-* overrride of rendrer to check resource existence on POD server
+* override of renderer to check resource existence on POD server
 ## Download
 from moodle plugin repository
 
